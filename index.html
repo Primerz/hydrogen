@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A simple GitHub repository directory documentation explorer.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>ES8 Dir explorer</title>
+
+    <!-- Add to homescreen Chrome -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="icon-192x192-path">
+
+    <!-- Add to homescreen Safari-->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="APP title">
+    <link rel="apple-touch-icon-precomposed" href="icon-12x120-path">
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="icon-144x144-path">
+    <meta name="msapplication-TileColor" content="#ff5252">
+
+    <link rel="shortcut icon" href="favicon path">
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link id="mdlCss" rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.red-indigo.min.css">
+
+    <style>
+      /* Element */
+      #repositoryTitle a{
+        text-decoration: none;
+        font-family: 'Open Sans', sans-serif !important;
+      }
+      #repositoryTitle, #repositoryFirstFolder, p, h1, h2, h3, h4, h5, h6 {
+        font-family: 'Open Sans', sans-serif !important;
+      }
+      #drawerNaviguationMenu {
+        padding-left: 12px;
+      }
+      .es8-naviguation {
+        padding: 8px;
+      }
+      .es8-ribbon {
+        height: 30%;
+        width: 100%;
+        position: fixed;
+      }
+      .es8-content {
+        height: 100%;
+        width: 100%;
+        max-width: 800px;
+        margin: auto;
+      }
+      .es8-content-card {
+          width: calc(100% - 32px);
+          height: 100%;
+          margin: 32px 16px;
+      }
+      .mdl-navigation .mdl-navigation {
+        margin-left: 12px;
+        padding-top: 0;
+        background-color: rgba(0, 0, 0, .02);
+      }
+      .mdl-navigation__link {
+          font-weight: 700 !important;
+          padding: 4px !important;
+          cursor: pointer;
+      }
+      .mdl-navigation__link:hover {
+          background-color: transparent !important;
+      }
+      #filePath {
+        padding: 16px;
+        padding-bottom: 32px;
+        border-bottom: 1px solid #868686;
+      }
+      .es8-card-actions {
+        text-align: right;
+        padding: 16px;
+      }
+      #editlink {
+        position: fixed;
+        z-index: 1;
+        bottom: 16px;
+        right: 16px;
+      }
+      #downloadFile {
+        display: none;
+      }
+      /* Card content */
+      * {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 400 !important;
+      }
+      h1, h2, h3, h4, h5, h6 {
+        font-weight: 500 !important;
+        color: #484848;
+      }
+      h1 {
+          font-weight: 28px;
+      }
+      h2 {
+          font-weight: 24px;
+      }
+      h3 {
+          font-weight: 21px;
+      }
+      h4 {
+          font-weight: 17px;
+      }
+      h5 {
+          font-weight: 14px;
+      }
+      h6 {
+          font-weight: 12px;
+      }
+      p {
+        font-weight: 300;
+      }
+      strong {
+        font-weight: bold;
+      }
+      a {
+        text-decoration: none;
+      }
+      blockquote {
+        margin-left: 36px;
+        margin-right: 36px;
+        color: #222;
+      }
+      blockquote p:first-child {
+        display: inline;
+      }
+      img {
+        max-width: 100%;
+      }
+      pre {
+        background-color: #eee;
+        padding: 8px;
+        overflow: auto;
+      }
+      pre code {
+        padding: 0px;
+      }
+      code {
+        background-color: #eee;
+        padding: 8px;
+        overflow: auto;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer
+            mdl-layout--fixed-header">
+      <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+
+          <span id="repositoryFirstFolder" class="es8-title mdl-layout-title">Title</span>
+
+          <div class="mdl-layout-spacer"></div>
+
+          <nav id="topNaviguationMenu" class="mdl-navigation">
+
+          </nav>
+
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable
+                      mdl-textfield--floating-label mdl-textfield--align-right">
+            <label class="mdl-button mdl-js-button mdl-button--icon"
+                   for="fixed-header-drawer-exp">
+              <i class="material-icons">search</i>
+            </label>
+            <div class="mdl-textfield__expandable-holder">
+              <input class="mdl-textfield__input" type="text" name="sample"
+                     id="fixed-header-drawer-exp">
+            </div>
+          </div>
+
+          <button class="mdl-button mdl-js-button mdl-button--icon" onclick="es8.downloadRepository()">
+            <i class="material-icons">file_download</i>
+          </button>
+
+        </div>
+      </header>
+      <div class="mdl-layout__drawer">
+        <span id="repositoryTitle" class="mdl-layout-title">Title</span>
+        <div id="drawerNaviguationMenu"></div>
+      </div>
+      <main class="mdl-layout__content">
+        <div class="es8-ribbon mdl-color--primary-dark"></div>
+        <div class="es8-content">
+
+          <div class="es8-content-card mdl-card mdl-shadow--4dp">
+            <div class="es8-card-title mdl-card__title mdl-card--border">
+              <h2 id="filepath" class="mdl-card__title-text">No readme.md file found</h2>
+            </div>
+
+            <div class="mdl-card__supporting-text">
+              <div id=htmlcontent>
+                <img src="https://s-media-cache-ak0.pinimg.com/originals/b9/c4/0b/b9c40bca1ee2b9172239aeb2e8467268.jpg" style="margin: auto;">
+                <p>Please create a file named 'readme.md' in this folder :)</p>
+              </div>
+            </div>
+
+            <div class="es8-card-actions mdl-card__actions mdl-card--border">
+              <button class="mdl-button mdl-js-button mdl-button--icon" onclick="es8.viewFile()">
+                <i class="material-icons">visibility</i>
+              </button>
+              <button class="mdl-button mdl-js-button mdl-button--icon" onclick="es8.viewFileHistory()">
+                <i class="material-icons">history</i>
+              </button>
+              <button class="mdl-button mdl-js-button mdl-button--icon" onclick="es8.viewFileBlame()">
+                <i class="material-icons">cached</i>
+              </button>
+              <button class="mdl-button mdl-js-button mdl-button--icon" onclick="es8.downloadFile()">
+                <i class="material-icons">file_download</i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <button id="editlink"
+            onclick="es8.editFile()"
+            class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+      <i class="material-icons">edit</i>
+    </button>
+
+    <a id="downloadFile" href="" download></a>
+
+
+    <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <script src="https://cdn.rawgit.com/showdownjs/showdown/1.6.4/dist/showdown.min.js"></script>
+    <!--script src="http://rawgit.com/amark/gun/master/gun.js"></script-->
+    <script>
+      /** JS & HTML API **/
+      var IDdrawerNaviguationMenu = 'drawerNaviguationMenu';
+      var IDtopNaviguationMenu = 'topNaviguationMenu';
+      var IDHtmlContentDisplayed = 'htmlcontent';
+      var IDFilePath = 'filepath';
+      var IDRepositoryFolderPath = 'repositoryFirstFolder';
+      var IDRepositoryFolder = 'repositoryTitle';
+      var IDAuthor = 'author';
+      var IDDownloadCurrentFileLink = 'downloadFile';
+      var es8 = {
+        mdConverter: new showdown.Converter(),
+        currentRawFileUrl: '',
+        author: '',
+        repositoryFolder: '',
+        menuDepth: 0,
+        /** JS JS API **/
+        getClassicalUrl: function() {
+            return es8.currentRawFileUrl.replace('raw.githubusercontent.com', 'github.com')
+        },
+        renderMarkdown: function(mardownText) {
+            var html = es8.mdConverter.makeHtml(mardownText);
+            /*var gitHubRepositoryFileRegex = /\<a href=\"https:\/\/github.com\/[a-zA-Z0-9-]+\/[a-zA-Z0-9-_\.]+\/(blob|tree)\/master\/[a-zA-Z-_\/\.]+\"\>[a-zA-Z0-9\- \&\%\?\=\.]+\<\/a\>/gm
+            html = html.replace(gitHubRepositoryFileRegex, function(matchedString){
+              var linkRegex = /\"https:\/\/github.com\/[a-zA-Z0-9-]+\/[a-zA-Z0-9-_\.]+\/(blob|tree)\/master\/[a-zA-Z-_\/\.]+\"/g;
+              var link = matchedString.match(linkRegex).replace(/\"/g, '');
+              var rawLink = link.replace('https://github.com/', 'https://raw.githubusercontent.com/')
+                                .replace('/blob/master/', '/master/');
+              var textRegex = /\>[a-zA-Z0-9\- \&\%\?\=\.]+\</g;
+              var text = matchedString.match(textRegex).replace("<", "").replace(">", "");
+              var code = '<a href="#" onclick="es8.loadFile("' + rawLink + '");">' + text + '</a>';
+              alert(code);
+              return code;
+            });*/
+            document.getElementById(IDHtmlContentDisplayed).innerHTML = html;
+        },
+        dirLoad: function(gitHubDirApiUrl) {
+          es8.menuDepth += 1;
+          // Request file
+          var fileRequest = new XMLHttpRequest();
+          fileRequest.open('GET', gitHubDirApiUrl);
+          // Prepare the request When file is recieved
+          fileRequest.onreadystatechange = function() {
+              if (this.readyState == 4 && this.status == 200) {
+                // text -> file list array
+                var dirList = JSON.parse(fileRequest.responseText);
+                // markdown file list
+                var fileList = [];
+                for(var i = 0; i < dirList.length; i++) {
+                  var file = dirList[i];
+                  // File is a dir
+                  if(file.type == "dir") {
+                      // Put dir in the list
+                      file.before = '';//'<i class="material-icons">library_books</i> ';
+                      fileList.push(file);
+                      // load dir child
+                      es8.dirLoad(file.url);
+                  }else
+                  // File is a markdown file
+                  if(file.type == "file" && file.name.includes(".md")) {
+                      if(!file.name.toLowerCase().includes('readme.md')) {
+                        // If not a readme, put in the list
+                        file.before = ''//'<i class="material-icons">description</i> ';
+                        fileList.push(file);
+                      }
+                  }
+                }
+                /* CREATE MENU */
+                // create drawer html list
+                var draweMenuHtml = '<nav class="mdl-navigation es8-naviguation">';
+                for (var i = 0; i < fileList.length; i++) {
+                  var file = fileList[i];
+                  draweMenuHtml += '<span class="mdl-navigation__link" onclick="es8.loadFile(\'' + file.url + '\')" url="' + file.url + '">' + file.before + file.name + '</span>';
+                }
+                draweMenuHtml += '</nav>';
+                var parentNav = document.querySelector("span[url='" + gitHubDirApiUrl + "']");
+                // Put html into sidebar
+                if(parentNav) { // after a directory nav element
+                    parentNav.insertAdjacentHTML('afterend', draweMenuHtml);
+                }else { // Inside the menu for the first load
+                    document.getElementById(IDdrawerNaviguationMenu).innerHTML = draweMenuHtml;
+                }
+                /* TOP MENU */
+                if(es8.menuDepth <= 1) {
+                    var topMenuHtml = '';
+                    for (var i = 0; i < fileList.length; i++) {
+                      var file = fileList[i];
+                      if(!file.name.toLowerCase().includes('readme.md')) {
+                          topMenuHtml += '<span class="mdl-navigation__link" onclick="es8.loadFile(\'' + file.url + '\')" url="' + file.url + '">' + file.name.replace('.md', '') + '</span>';
+                      }
+                    }
+                    document.getElementById(IDtopNaviguationMenu).innerHTML = topMenuHtml;
+                }else {
+                    document.getElementById(IDtopNaviguationMenu).setAttribute('style', 'display: none;');
+                }
+              }else {
+                console.log("Query response error when loading file list");
+              }
+            }
+          // Lunch the request
+          fileRequest.send();
+        },
+        /** HTML JS API **/
+        viewFile: function() {
+            var viewFileUrl = es8.getClassicalUrl().replace('master', 'blob/master');
+            window.open(viewFileUrl);
+        },
+        viewFileHistory: function() {
+          var viewFileHistoryUrl = es8.getClassicalUrl().replace('master', 'commits/master');
+          window.open(viewFileHistoryUrl);
+        },
+        viewFileBlame: function() {
+          var viewFileBlameUrl = es8.getClassicalUrl().replace('master', 'blame/master');
+          window.open(viewFileBlameUrl);
+        },
+        editFile: function() {
+            var editFileUrl = es8.getClassicalUrl().replace('master', 'edit/master');
+            window.open(editFileUrl);
+        },
+        downloadFile: function() {
+          var downloadFileLink = document.getElementById(IDDownloadCurrentFileLink);
+          downloadFileLink.setAttribute("href", es8.currentRawFileUrl);
+          downloadFileLink.click();
+        },
+        downloadRepository: function() {
+            var repositoryUrlFordownload = 'https://github.com/' + es8.author + '/' + es8.repositoryFolder + '/archive/master.zip'
+            window.open(repositoryUrlFordownload);
+        },
+        loadFile: function(url) {
+            if(url.includes('.md')) {
+                es8.fileLoad(url);
+            }else {
+                es8.readmeLoad(url);
+            }
+        },
+        fileLoad: function(gitHubFileApiUrl) {
+          // Prepare url
+          rawUrl = gitHubFileApiUrl.replace('https://api.github.com/repos/', 'https://raw.githubusercontent.com/').replace('contents', 'master');
+          // Query raw md file
+          var fileRequest = new XMLHttpRequest();
+          fileRequest.open('GET', rawUrl);
+          // When file is recieved
+          fileRequest.onreadystatechange = function(url) {
+              if (this.readyState == 4 && this.status == 200) {
+                  es8.renderMarkdown(fileRequest.responseText);
+              }
+          };
+          // Lunch the request
+          fileRequest.send();
+          // Set file path in card
+          var filePath = 'GitHub' + gitHubFileApiUrl.replace("https://api.github.com/repos", "").replace("/contents", "").replace("%20", "").replace(/\//g, ' > ').replace('?ref=', ' [') + ']';
+          document.getElementById("filepath").innerHTML = filePath;
+          // Set current file url
+          es8.currentRawFileUrl = rawUrl;
+        },
+        readmeLoad: function(gitHubDirApiUrl) {
+          // Query dir contents
+          var fileRequest = new XMLHttpRequest();
+          fileRequest.open('GET', gitHubDirApiUrl);
+          // When file is recieved
+          fileRequest.onreadystatechange = function(url) {
+              if (this.readyState == 4 && this.status == 200) {
+                // file list array
+                var fileList = JSON.parse(fileRequest.responseText);
+                for(var i = 0; i < fileList.length; i++) {
+                  var file = fileList[i];
+                  if(file.name.toLowerCase().includes("readme.md")) {
+                      es8.fileLoad(file.url);
+                  }
+                }
+              }
+          };
+          // Lunch the request
+          fileRequest.send();
+        },
+        init: function() {
+            // GET URL
+            var currentUrl = window.location.href;
+            es8.repositoryHtmlUrlToLoad = currentUrl
+            // SET URL PARAMS
+            if(currentUrl.includes('?')) { // url?param=value&param=value
+              var urlParams = currentUrl.split('?')[1].split('&'); // [param=value, param=value]
+              for (var i = 0;i < urlParams.length;i++) {
+                var urlParam = urlParams[i].split('='); //name=value
+                var urlParamName = urlParam[0]; // name
+                var urlParamValue = urlParam[1]; // value
+                switch (urlParamName) {
+                  case 'repository':
+                    es8.repositoryHtmlUrlToLoad = urlParamValue;
+                    break;
+                  case 'colors':
+                    document.getElementById('mdlCss').setAttribute('href', 'https://code.getmdl.io/1.3.0/material.' + urlParamValue + '.min.css');
+                }
+              }
+            }
+            // DETECT URL TYPE TO LOAD
+            var urlType = ''; // Can be: [github-repository, github-page]
+            if(/https:\/\/github.com\/.*/.test(es8.repositoryHtmlUrlToLoad)) {
+              urlType = 'github-repository';
+            }else if(/https:\/\/[a-zA-Z0-9-]+.github.io\/.*/.test(es8.repositoryHtmlUrlToLoad)) {
+              urlType = 'github-page';
+            }else {
+              console.error("url not fit: could not define if it's a repository or a page");
+            }
+            // EXTRACT URL (author repository, path) -> API URL
+            // Get author & folder
+            if(urlType == 'github-repository') {
+              es8.author = es8.repositoryHtmlUrlToLoad.replace('https://github.com/', '').split('/')[0]; // https://github.com/Primerz/Bookmarks -> Primerz
+              es8.repositoryFolder = es8.repositoryHtmlUrlToLoad.replace(/https:\/\/github.com\/[a-zA-Z0-9-]+\//, '').replace('tree/master/', '');
+            }else if(urlType == 'github-page') {
+              es8.author = es8.repositoryHtmlUrlToLoad.replace(/\.github.io\/[\.a-zA-Z0-9-\/]+/g, '').replace('https://', ''); // https://esteem8app.github.io/doc-viewer/index.html -> esteem8app
+              es8.repositoryFolder = es8.repositoryHtmlUrlToLoad.replace(/https:\/\/[a-zA-Z0-9-]+.github.io\//, '').replace('index.html', '');
+            }
+            // Remove first and last '/'
+            if(es8.repositoryFolder.charAt(es8.repositoryFolder.length-1) == '/') {
+               es8.repositoryFolder = es8.repositoryFolder.slice(0, -1);
+            }
+            if(es8.repositoryFolder.charAt(0) == '/') {
+               es8.repositoryFolder = es8.repositoryFolder.slice(1);
+            }
+            // Get repository name (main folder of the current repository)
+            var repositoryPathSplitted = es8.repositoryFolder.split('/');
+            es8.repositoryFirstFolder = repositoryPathSplitted[0];
+            es8.repositoryCurrentFolder = repositoryPathSplitted[repositoryPathSplitted.length-1] || repositoryPathSplitted;
+            // Translate (repo & page) HTML URL into API & (github repo) HTML URL
+            var repositoryApiUrlToLoad = 'https://api.github.com/repos/' + es8.author + '/' + es8.repositoryFirstFolder + '/contents/' + es8.repositoryFolder.replace(es8.repositoryFirstFolder, '');
+            var repositoryFolderHtmlPath = 'https://github.com/' + es8.author + '/' + es8.repositoryFirstFolder + '/tree/master/' + es8.repositoryFolder.replace(es8.repositoryFirstFolder, '');
+            /** LUNCH ES8 **/
+            // Load file and folder list
+            es8.dirLoad(repositoryApiUrlToLoad);
+            // Load readme
+            es8.readmeLoad(repositoryApiUrlToLoad);
+            /** SET PARAMS **/
+            document.getElementById(IDRepositoryFolderPath).innerHTML = es8.repositoryFolder;
+            document.getElementById(IDRepositoryFolder).innerHTML = '<a href="' + repositoryFolderHtmlPath + '" target=_blank>' + es8.repositoryCurrentFolder + '</a>';
+        }
+      };
+      es8.init();
+      // http://apostrophecms.org/docs/tutorials/intermediate/model-layer.html#working-with-projections
+    </script>
+
+  </body>
+</html>
