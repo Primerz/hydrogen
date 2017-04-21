@@ -14,4 +14,4 @@ Hydrogen is an efficient storage methode of electricity, the process between DC 
 
 Green energy such as wind turbine are highly efficient but difficult to use because of it's unregular production, hydrogen is the best technology to enable a stable electrical network based on green energy. This technology is applicable at a local scale, giving the means of a stable, secure, descentralized electrical network competitive, fair and real-time load capable. Beyond electrical network load regulation, hydrogen fuel cell are also effective for transport and micro technologies.
 
-The hydrogen fuel cell technology efficiency is between 25%-70% for the whole process, also fuel cell can be charged instantanously if the hydrogen is already made, this is particularly interesting when combined with an electrical motor with an efficiency of 70-99%.
+The hydrogen fuel cell technology efficiency is between 25%-75% for the whole process, also fuel cell can be charged instantanously if the hydrogen is already made, this is particularly interesting when combined with an electrical motor with an efficiency of 70-99%.
