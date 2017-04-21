@@ -10,6 +10,8 @@
 
 [Electrolysis of water](https://en.wikipedia.org/wiki/Electrolysis_of_water) is the decomposition of water (H2O) into oxygen (O2) and hydrogen gas (H2) due to an electric current being passed through the water.
 
+![](https://www.everythingmaths.co.za/science/grade-12/13-electrochemical-reactions/pspictures/19be7624ae43f1cf55f76e5644df9cfb.png)
+
 Electrolysis efficency can go up to 96% and is about 73% in average for commercial electrolysis products. [source](http://www.electrochemsci.org/papers/vol7/7043314.pdf)
 
 ### 1.1.1 Electrocatalyst material
@@ -38,4 +40,6 @@ C3N4@NG can only be made with a particle accelerator that can only be legally ho
 
 ### 1.1.3 Costs
 
-According to [energy.gov](https://energy.gov/eere/fuelcells/doe-technical-targets-hydrogen-production-electrolysis), hydrogen production costs from electrolysis technologies in 2015 vary from 3.20$/kg to 5.60$/kg. 2.00$/kg to 4.00$/kg are targeted for 2020.
+According to [energy.gov](https://energy.gov/eere/fuelcells/doe-technical-targets-hydrogen-production-electrolysis), hydrogen production costs from electrolysis technologies in 2015 vary from 3.20$/kg to 5.60$/kg.
+
+2.00$/kg to 4.00$/kg are targeted for 2020.
