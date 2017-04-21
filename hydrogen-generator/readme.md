@@ -1,4 +1,4 @@
-# Electrolysis module
+# Hydrogen generator [module]
 
 [Electrolysis of water](https://en.wikipedia.org/wiki/Electrolysis_of_water) is the decomposition of water (H2O) into oxygen (O2) and hydrogen gas (H2) due to an electric current being passed through the water.
 
