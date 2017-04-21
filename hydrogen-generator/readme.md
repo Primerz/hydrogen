@@ -38,4 +38,4 @@ C3N4@NG can only be made with a particle accelerator that can only be legally ho
 
 ### 1.1.3 Costs
 
-According to [energy.gov](https://energy.gov/eere/fuelcells/doe-technical-targets-hydrogen-production-electrolysis), hydrogen production costs in 2015 vary from 3.20$/kg to 5.60$/kg. 2.00$/kg to 4.00$/kg are targeted for 2020.
+According to [energy.gov](https://energy.gov/eere/fuelcells/doe-technical-targets-hydrogen-production-electrolysis), hydrogen production costs from electrolysis technologies in 2015 vary from 3.20$/kg to 5.60$/kg. 2.00$/kg to 4.00$/kg are targeted for 2020.
